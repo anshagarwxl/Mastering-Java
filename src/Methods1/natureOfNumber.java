@@ -9,10 +9,10 @@ public class natureOfNumber {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter a number: ");
         int n = sc.nextInt();
-        int nature = natureOfnumber(n);
+        int nature = natureOfNumber(n);
         System.out.println("Nature of the number " +n+ " is " + nature);
     }
-    public static int natureOfnumber(int n){
+    public static int natureOfNumber(int n){
         if(n<0){
             return -1;
         }
