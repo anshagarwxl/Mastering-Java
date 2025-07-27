@@ -14,7 +14,7 @@ public class UnitConverterQ5 {
 
         int choice = sc.nextInt();
 
-        // Check for valid choice first
+
         if (choice < 1 || choice > 5) {
             System.out.println("Invalid choice.");
             sc.close();

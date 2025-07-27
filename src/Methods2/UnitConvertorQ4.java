@@ -7,7 +7,7 @@
 //Method to convert feet to meters and return the value. Use the following code to convert double feet2meters = 0.3048;
 package Methods2;
 import java.util.Scanner;
-public class UnitConvertor {
+public class UnitConvertorQ4 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Choose an option:");
