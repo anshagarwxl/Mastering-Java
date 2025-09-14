@@ -7,7 +7,7 @@ public class ECommerceSystemDemo {
     }
 }
 /*
-=======PRODUCT CLASS===========
+=======PRODUCT CLASS============
 */
 final class Product{
     //private final fields: productId, name, category, manufacturer, basePrice, weight, features[], specifications(Map)
