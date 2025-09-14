@@ -1,5 +1,6 @@
 package OOPS1;
 import java.util.*;
+import java.time.LocalDateTime;
 
 public class ECommerceSystemDemo {
     public static void main(String[] args) {
@@ -74,4 +75,61 @@ final class Product{
             default: return basePrice * 0.10; // default 10%
         }
     }
+}
+
+/*
+===========CUSTOMER CLASS=================
+ */
+
+class Customer{
+    //        * private final fields: customerId, email, accountCreationDate
+    //        * Editable fields: name, phoneNumber, preferredLanguage
+    private final String customerId;
+    private final String email;
+    private final String accountCreationDate;
+    private String name;
+    private String phoneNumber;
+    private String preferredLanguage;
+
+    //        * package-private getCreditRating() for internal use
+    //        * public getPublicProfile() to return safe data for reviews/ratings
+
+    int creditRating = 999; //only visible inside this package
+
+    //CONSTRUCTOR
+    public Customer(String customerId, String email, String name, String phoneNumber, String preferredLanguage){
+        this.customerId = Objects.requireNonNull(customerId);
+        this.email = Objects.requireNonNull(email);
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.preferredLanguage = preferredLanguage;
+        this.accountCreationDate = LocalDateTime.now().toString();
+    }
+
+    //PERMANENT INFO GETTERS
+    public String getCustomerId() {return customerId;}
+    public String getEmail() { return  email; }
+    public String getAccountCreationDate(){ return accountCreationDate; }
+
+    //MODIFIABLE DATA USING SETTERS
+    public String getName(){ return name;}
+    public void setName(String name){
+        this.name=name;
+    }
+    public String getPhoneNumber(){ return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber){
+        this.phoneNumber = phoneNumber;
+    }
+    public String getPreferredLanguage(){ return preferredLanguage; }
+    public void setPreferredLanguage(String preferredLanguage){
+        this.preferredLanguage = preferredLanguage;
+    }
+    int getCreditRating(){
+        return creditRating;
+    }
+
+//* public getPublicProfile() to return safe data for reviews/ratings
+
+
+
 }
