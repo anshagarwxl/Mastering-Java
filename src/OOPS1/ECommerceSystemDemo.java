@@ -81,7 +81,7 @@ final class Product{
 ===========CUSTOMER CLASS=================
  */
 
-class Customer{
+class Customer {
     //        * private final fields: customerId, email, accountCreationDate
     //        * Editable fields: name, phoneNumber, preferredLanguage
     private final String customerId;
@@ -97,7 +97,7 @@ class Customer{
     int creditRating = 999; //only visible inside this package
 
     //CONSTRUCTOR
-    public Customer(String customerId, String email, String name, String phoneNumber, String preferredLanguage){
+    public Customer(String customerId, String email, String name, String phoneNumber, String preferredLanguage) {
         this.customerId = Objects.requireNonNull(customerId);
         this.email = Objects.requireNonNull(email);
         this.name = name;
@@ -107,35 +107,57 @@ class Customer{
     }
 
     //PERMANENT INFO GETTERS
-    public String getCustomerId() {return customerId;}
-    public String getEmail() { return  email; }
-    public String getAccountCreationDate(){ return accountCreationDate; }
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getAccountCreationDate() {
+        return accountCreationDate;
+    }
 
     //MODIFIABLE DATA USING SETTERS
-    public String getName(){ return name;}
-    public void setName(String name){
-        this.name=name;
+    public String getName() {
+        return name;
     }
-    public String getPhoneNumber(){ return phoneNumber; }
-    public void setPhoneNumber(String phoneNumber){
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    public String getPreferredLanguage(){ return preferredLanguage; }
-    public void setPreferredLanguage(String preferredLanguage){
+
+    public String getPreferredLanguage() {
+        return preferredLanguage;
+    }
+
+    public void setPreferredLanguage(String preferredLanguage) {
         this.preferredLanguage = preferredLanguage;
     }
-    int getCreditRating(){
+
+    int getCreditRating() {
         return creditRating;
     }
 
 //* public getPublicProfile() to return safe data for reviews/ratings
 
-    public Map<String, String> getPublicProfile(){ // example : {customerId=C101, name=John Doe, preferredLanguage=en}
+    public Map<String, String> getPublicProfile() { // example : {customerId=C101, name=John Doe, preferredLanguage=en}
         Map<String, String> map = new HashMap<>(); //Creates a new empty HashMap (a type of Map that stores key-value pairs).
-        map.put("customerId:" , customerId); // Adds the customerId of this customer into the map.
+        map.put("customerId:", customerId); // Adds the customerId of this customer into the map.
         map.put("name", name == null ? "Anonymous :" : name); // If name is null, put "Anonymous" as the value | Otherwise, put the actual name
-        map.put("preferred language = ",preferredLanguage==null ? "en " : preferredLanguage); //If no language is set (null), default to "en" (English) | Otherwise, use the actual preferredLanguage.
-   return map;
+        map.put("preferred language = ", preferredLanguage == null ? "en " : preferredLanguage); //If no language is set (null), default to "en" (English) | Otherwise, use the actual preferredLanguage.
+        return map;
     }
 
 }
+
+// to be continued
