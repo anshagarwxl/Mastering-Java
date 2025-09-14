@@ -130,6 +130,12 @@ class Customer{
 
 //* public getPublicProfile() to return safe data for reviews/ratings
 
-
+    public Map<String, String> getPublicProfile(){ // example : {customerId=C101, name=John Doe, preferredLanguage=en}
+        Map<String, String> map = new HashMap<>(); //Creates a new empty HashMap (a type of Map that stores key-value pairs).
+        map.put("customerId:" , customerId); // Adds the customerId of this customer into the map.
+        map.put("name", name == null ? "Anonymous :" : name); // If name is null, put "Anonymous" as the value | Otherwise, put the actual name
+        map.put("preferred language = ",preferredLanguage==null ? "en " : preferredLanguage); //If no language is set (null), default to "en" (English) | Otherwise, use the actual preferredLanguage.
+   return map;
+    }
 
 }
