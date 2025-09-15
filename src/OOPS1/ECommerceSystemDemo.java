@@ -161,3 +161,49 @@ class Customer {
 }
 
 // to be continued.......
+
+//==========SHOPPING CART==============
+  /*  * Create ShoppingCart with:
+        * private final fields: cartId, customerId
+        * private List<Object> items, double totalAmount, int itemCount
+        * public boolean addItem(Object product, int quantity) — use instanceof to validate products
+        * private double calculateDiscount() for internal pricing
+        * package-private getCartSummary() for checkout
+   */
+
+    class ShoppingCart {
+        private final String cartId;
+        private final String customerId;
+        private List<Object> items = new ArrayList<>(); // here we can store different product types
+        private double totalAmount;
+        private int itemCount;
+
+        public ShoppingCart(String cartId, String customerId) {
+            this.cartId = Objects.requireNonNull(cartId);
+            this.customerId = Objects.requireNonNull(customerId);
+        }
+
+        public String getCustomerId
+
+        {
+            return customerId;
+        }
+
+        public String getCartId
+
+        {
+            return cartId;
+        }
+
+        //method for adding items, first items get validated if they are actually objects;)
+        // return type is boolean as: we are returning true or false, true if the product gets added successfully and vice versa
+        public boolean addItem(Object product, int quantity) {
+            if(product==null|| !(product instanceof Product) || quantity<=0)
+                return false;
+            for(int i = 0; i<quantity;i++) items.add(product);
+            itemCount+=quantity;
+            totalAmount+= ((Product) product).getBasePrice() * quantity;
+            totalAmount -= calculateDiscount();
+            return true;
+        }
+    }
