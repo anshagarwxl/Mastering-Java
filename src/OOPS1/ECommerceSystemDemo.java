@@ -206,4 +206,20 @@ class Customer {
             totalAmount -= calculateDiscount();
             return true;
         }
+        private double calculateDiscount() {
+            if (itemCount > 5) return totalAmount * 0.05;
+            return 0.0;
+        }
+        //provides summary of cart
+        String getCartSummary() {
+            Map<String, Object> summary = new HashMap<>();
+            summary.put("cartId", cartId);
+            summary.put("customerId", customerId);
+            summary.put("itemCount", itemCount);
+            summary.put("totalAmount", totalAmount);
+            return summary.toString();
+        }
+        public double getTotalAmount() { return totalAmount; }
+        public int getItemCount() { return itemCount; }
+    }
     }
