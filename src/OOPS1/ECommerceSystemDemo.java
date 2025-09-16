@@ -225,3 +225,5 @@ class Customer {
     }
 
     //to be continued....
+
+    // ====== Order with constructor chaining for types ======
