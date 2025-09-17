@@ -4,20 +4,20 @@ import java.time.LocalDateTime;
 
 public class ECommerceSystemDemo {
     public static void main(String[] args) {
-    // Demo usage
-    Product phone = Product.createElectronics("P1001", "SmartPhone X", "Electronics", "AcmeCorp", 499.99, 0.45,
-            new String[]{"Bluetooth", "NFC", "5G"}, Map.of("CPU", "Octa-core", "RAM", "8GB"));
+        // Demo usage
+        Product phone = Product.createElectronics("P1001", "SmartPhone X", "Electronics", "AcmeCorp", 499.99, 0.45,
+                new String[]{"Bluetooth", "NFC", "5G"}, Map.of("CPU", "Octa-core", "RAM", "8GB"));
 
-    Customer cust = new Customer("C1001", "alice@example.com", "Alice", "+911234567890", "en-IN");
+        Customer cust = new Customer("C1001", "alice@example.com", "Alice", "+911234567890", "en-IN");
 
-    ShoppingCart cart = new ShoppingCart("Cart1001", cust.getCustomerId());
-    cart.addItem(phone, 1);
+        ShoppingCart cart = new ShoppingCart("Cart1001", cust.getCustomerId());
+        cart.addItem(phone, 1);
 
-    Order order = new Order(Order.OrderType.REGISTERED, cust, cart);
+        Order order = new Order(Order.OrderType.REGISTERED, cust, cart);
 
-    boolean processed = ECommerceSystem.processOrder(order, cust);
-    System.out.println("Order processed: " + processed);
-}
+        boolean processed = ECommerceSystem.processOrder(order, cust);
+        System.out.println("Order processed: " + processed);
+    }
 }
 /*
 =======PRODUCT CLASS============
@@ -58,7 +58,7 @@ final class Product{
     }
 
     public static Product createBooks(String productId, String name, String category, String manufacturer,
-                                     double basePrice, double weight, String[] features, Map<String, String> specifications) {
+                                      double basePrice, double weight, String[] features, Map<String, String> specifications) {
         return new Product (productId, name, category, manufacturer, basePrice, weight, features, specifications);
     }
 
@@ -175,78 +175,77 @@ class Customer {
 // to be continued.......
 
 //==========SHOPPING CART==============
-  /*  * Create ShoppingCart with:
-        * private final fields: cartId, customerId
-        * private List<Object> items, double totalAmount, int itemCount
-        * public boolean addItem(Object product, int quantity) — use instanceof to validate products
-        * private double calculateDiscount() for internal pricing
-        * package-private getCartSummary() for checkout
-   */
+/*  * Create ShoppingCart with:
+ * private final fields: cartId, customerId
+ * private List<Object> items, double totalAmount, int itemCount
+ * public boolean addItem(Object product, int quantity) — use instanceof to validate products
+ * private double calculateDiscount() for internal pricing
+ * package-private getCartSummary() for checkout
+ */
 
-    class ShoppingCart {
-        private final String cartId;
-        private final String customerId;
-        private List<Object> items = new ArrayList<>(); // here we can store different product types
-        private double totalAmount;
-        private int itemCount;
+class ShoppingCart {
+    private final String cartId;
+    private final String customerId;
+    List<Object> items = new ArrayList<>(); // here we can store different product types
+    private double totalAmount;
+    private int itemCount;
 
-        public ShoppingCart(String cartId, String customerId) {
-            this.cartId = Objects.requireNonNull(cartId);
-            this.customerId = Objects.requireNonNull(customerId);
-        }
-
-        public String getCustomerId
-
-        {
-            return customerId;
-        }
-
-        public String getCartId
-
-        {
-            return cartId;
-        }
-
-        //method for adding items, first items get validated if they are actually objects;)
-        // return type is boolean as: we are returning true or false, true if the product gets added successfully and vice versa
-        public boolean addItem(Object product, int quantity) {
-            if(product==null|| !(product instanceof Product) || quantity<=0)
-                return false;
-            for(int i = 0; i<quantity;i++) items.add(product);
-            itemCount+=quantity;
-            totalAmount+= ((Product) product).getBasePrice() * quantity;
-            totalAmount -= calculateDiscount();
-            return true;
-        }
-        private double calculateDiscount() {
-            if (itemCount > 5) return totalAmount * 0.05;
-            return 0.0;
-        }
-        //provides summary of cart
-        String getCartSummary() {
-            Map<String, Object> summary = new HashMap<>();
-            summary.put("cartId", cartId);
-            summary.put("customerId", customerId);
-            summary.put("itemCount", itemCount);
-            summary.put("totalAmount", totalAmount);
-            return summary.toString();
-        }
-        public double getTotalAmount() { return totalAmount; }
-        public int getItemCount() { return itemCount; }
-    }
+    public ShoppingCart(String cartId, String customerId) {
+        this.cartId = Objects.requireNonNull(cartId);
+        this.customerId = Objects.requireNonNull(customerId);
     }
 
-    //to be continued....
+    public String getCustomerId;
 
-    // ====== Order with constructor chaining for types ======
-  /*
-  4. Constructor Chaining
-    * Implement constructor chaining for:
-        * Guest checkout (minimal info)
-        * Registered customer (full account access)
-        * Premium member (special pricing/features)
-        * Corporate account (bulk ordering + validation)
-   */
+    {
+        return customerId;
+    }
+
+    public String getCartId;
+
+    {
+        return cartId;
+    }
+
+    //method for adding items, first items get validated if they are actually objects;)
+    // return type is boolean as: we are returning true or false, true if the product gets added successfully and vice versa
+    public boolean addItem(Object product, int quantity) {
+        if(product==null|| !(product instanceof Product) || quantity<=0)
+            return false;
+        for(int i = 0; i<quantity;i++) items.add(product);
+        itemCount+=quantity;
+        totalAmount+= ((Product) product).getBasePrice() * quantity;
+        totalAmount -= calculateDiscount();
+        return true;
+    }
+    private double calculateDiscount() {
+        if (itemCount > 5) return totalAmount * 0.05;
+        return 0.0;
+    }
+    //provides summary of cart
+    String getCartSummary() {
+        Map<String, Object> summary = new HashMap<>();
+        summary.put("cartId", cartId);
+        summary.put("customerId", customerId);
+        summary.put("itemCount", itemCount);
+        summary.put("totalAmount", totalAmount);
+        return summary.toString();
+    }
+    public double getTotalAmount() { return totalAmount; }
+    public int getItemCount() { return itemCount; }
+}
+
+//to be continued....
+
+// ====== Order with constructor chaining for types ======
+/*
+4. Constructor Chaining
+  * Implement constructor chaining for:
+      * Guest checkout (minimal info)
+      * Registered customer (full account access)
+      * Premium member (special pricing/features)
+      * Corporate account (bulk ordering + validation)
+ */
 
 class Order {
     enum OrderType {
@@ -271,9 +270,9 @@ class Order {
         this.orderTime = LocalDateTime.now();
         // LocalDateTime -> A Java class from java.time package that represents a date and time (without a time zone).
         // .now() -> A static method that gives you the current system date and time (right when this line runs).
-        this.orderType = orderType;
+        this.orderType = ordertype;
         this.customer = customer;
-        this.cart = cart;
+        this.cart = shoppingCart;
     }
 
     //GUEST CONSTRUCTOR
@@ -282,7 +281,7 @@ class Order {
     }
 
     //REGISTERED CUSTOMER
-    public Order(OrderType type, Customer customer, ShoppingCart cart) {
+    public Order(OrderType type, Customer customer, ShoppingCart cart){
         this(type, customer, cart, null);
     }
 
@@ -337,7 +336,7 @@ class Order {
     * Each class should have specific business logic with appropriate access control
      */
 
-    class PaymentProcessor {
+    static class PaymentProcessor {
         //  PaymentProcessor class → private final processorId, securityKey
         private final String processorId;
         private final String securityKey;
@@ -358,7 +357,7 @@ class Order {
 
     private final Map<String, Double> shippingRates;
 
-    public ShippingCalculator(Map<String, Double> shippingRates) {
+    public Order(Map<String, Double> shippingRates) {
         this.shippingRates = new HashMap<>(shippingRates);
     }
 
@@ -372,7 +371,7 @@ class Order {
         double rate = shippingRates.getOrDefault(region == null ? "" : region, 10.0);
         return totalWeight * rate;
     }
-        }
+}
 
 // ====== ECommerceSystem ======
 
@@ -392,31 +391,31 @@ final class ECommerceSystem {
     public static void addProductToCatalog(Product product) {
         productCatalog.put(product.getProductId(), product);
     }
+
+    public static Object getProduct(String productId) {
+        return productCatalog.get(productId);
+    }
+
+    public static boolean processOrder(Object orderObj, Object customerObj) {
+        if (!(orderObj instanceof Order) || !(customerObj instanceof Customer)) return false;
+        Order order = (Order) orderObj;
+        Customer customer = (Customer) customerObj;
+
+        if (order.getCart() == null || order.getCart().getItemCount() == 0) return false;
+
+        Order.PaymentProcessor processor = new Order.PaymentProcessor("PROC-1", "s3cr3t");
+        double amount = order.getCart().getTotalAmount();
+        boolean auth = processor.authorizePayment(order, amount);
+        if (!auth) return false;
+
+        Order shipCalc = new Order(Map.of("IN", 50.0, "US", 80.0));
+        double shipping = shipCalc.calculateShipping(order, "IN");
+
+        System.out.println("Authorised amount: " + amount + ", Shipping: " + shipping);
+        return true;
+    }
+
+    public static void updateInventory(String productId, int delta) {
+        System.out.println("Inventory update for " + productId + ": " + delta);
+    }
 }
-public static Object getProduct(String productId) {
-    return productCatalog.get(productId);
-}
-public static boolean processOrder(Object orderObj, Object customerObj) {
-    if (!(orderObj instanceof Order) || !(customerObj instanceof Customer)) return false;
-    Order order = (Order) orderObj;
-    Customer customer = (Customer) customerObj;
-
-    if (order.getCart() == null || order.getCart().getItemCount() == 0) return false;
-
-    PaymentProcessor processor = new PaymentProcessor("PROC-1", "s3cr3t");
-    double amount = order.getCart().getTotalAmount();
-    boolean auth = processor.authorizePayment(order, amount);
-    if (!auth) return false;
-
-    ShippingCalculator shipCalc = new ShippingCalculator(Map.of("IN", 50.0, "US", 80.0));
-    double shipping = shipCalc.calculateShipping(order, "IN");
-
-    System.out.println("Authorised amount: " + amount + ", Shipping: " + shipping);
-    return true;
-}
-
-public static void updateInventory(String productId, int delta) {
-    System.out.println("Inventory update for " + productId + ": " + delta);
-}
-
-
