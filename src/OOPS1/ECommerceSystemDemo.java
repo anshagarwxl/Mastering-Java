@@ -236,10 +236,11 @@ class Customer {
         * Corporate account (bulk ordering + validation)
    */
 
-class Order{
-    enum OrderType{
+class Order {
+    enum OrderType {
         GUEST, REGISTERED, PREMIUM, CORPORATE
     }
+
     private final String orderId;
     private final LocalDateTime orderTime;
     private final OrderType orderType;
@@ -247,7 +248,7 @@ class Order{
     private final ShoppingCart cart;
     private String companyRegistrationId;
 
-    private Order(OrderType ordertype, Customer customer, ShoppingCart shoppingCart){
+    private Order(OrderType ordertype, Customer customer, ShoppingCart shoppingCart) {
         //this constructor has only three parameters as these three are always required no matter what kind of order it is.
         //additional fields are handled by the respective constructors.
 
@@ -262,47 +263,60 @@ class Order{
         this.customer = customer;
         this.cart = cart;
     }
+
     //GUEST CONSTRUCTOR
-    public Order(ShoppingCart cart) { this(OrderType.GUEST, null, cart); }
+    public Order(ShoppingCart cart) {
+        this(OrderType.GUEST, null, cart);
+    }
+
     //REGISTERED CUSTOMER
-    public Order(OrderType type, Customer customer, ShoppingCart cart) { this(type, customer, cart, null); }
+    public Order(OrderType type, Customer customer, ShoppingCart cart) {
+        this(type, customer, cart, null);
+    }
+
     //PREMIUM CUSTOMER
     public Order(Customer customer, ShoppingCart cart, boolean isPremium) {
         this(isPremium ? OrderType.PREMIUM : OrderType.REGISTERED, customer, cart, null);
     }
+
     public Order(Customer customer, ShoppingCart cart, String companyRegistrationId) {
         this(OrderType.CORPORATE, customer, cart, companyRegistrationId);
     }
 
-    private Order(OrderType type, Customer customer, ShoppingCart cart, String companyRegistrationId ){
+    private Order(OrderType type, Customer customer, ShoppingCart cart, String companyRegistrationId) {
         this.orderId = UUID.randomUUID().toString();
-        this.orderTime=LocalDateTime.now();
-        this.orderType=type;
-        this.customer=customer;
-        this.cart=cart;
-        this.companyRegistrationId=companyRegistrationId;
+        this.orderTime = LocalDateTime.now();
+        this.orderType = type;
+        this.customer = customer;
+        this.cart = cart;
+        this.companyRegistrationId = companyRegistrationId;
     }
 
-    public String getOrderId(){
+    public String getOrderId() {
         return orderId;
     }
+
     public LocalDateTime getOrderTime() {
         return orderTime;
     }
+
     public OrderType getOrderType() {
         return orderType;
     }
+
     public Customer getCustomer() {
         return customer;
     }
+
     public ShoppingCart getCart() {
         return cart;
     }
+
     public String getCompanyRegistrationId() {
         return companyRegistrationId;
     }
 
-   // ===============Payment Processor================
+    // ===============Payment Processor================
     /*
     5. Order Processing Classes
     * Order class → private final orderId, orderTime (LocalDateTime)
@@ -311,20 +325,40 @@ class Order{
     * Each class should have specific business logic with appropriate access control
      */
 
-    class PaymentProcessor{
+    class PaymentProcessor {
         //  PaymentProcessor class → private final processorId, securityKey
         private final String processorId;
         private final String securityKey;
 
-        public PaymentProcessor(String processorId, String securityKey){
-            this.processorId= Objects.requireNonNull(processorId);
-            this.securityKey= Objects.requireNonNull(securityKey);
+        public PaymentProcessor(String processorId, String securityKey) {
+            this.processorId = Objects.requireNonNull(processorId);
+            this.securityKey = Objects.requireNonNull(securityKey);
         }
-        public boolean authorizePayment(Order order, double amount){
+
+        public boolean authorizePayment(Order order, double amount) {
             if (order == null) return false;
             return amount > 0 && !processorId.isEmpty();
         }
     }
 
+    // ====== ShippingCalculator ======
+    //    * ShippingCalculator class → private final shippingRates(Map)
 
-}
+    private final Map<String, Double> shippingRates;
+
+    public ShippingCalculator(Map<String, Double> shippingRates) {
+        this.shippingRates = new HashMap<>(shippingRates);
+    }
+
+    public double calculateShipping(Order order, String region) {
+        if (order == null) return 0.0;
+        double totalWeight = 0.0;
+        for (int i = 0; i < order.getCart().getItemCount(); i++) {
+            Object obj = order.getCart().items.get(i);
+            if (obj instanceof Product) totalWeight += ((Product) obj).getWeight();
+        }
+        double rate = shippingRates.getOrDefault(region == null ? "" : region, 10.0);
+        return totalWeight * rate;
+    }
+        }
+
