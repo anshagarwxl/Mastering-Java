@@ -283,7 +283,7 @@ class Order{
         this.companyRegistrationId=companyRegistrationId;
     }
 
-    public String getOrderId{
+    public String getOrderId(){
         return orderId;
     }
     public LocalDateTime getOrderTime() {
@@ -302,6 +302,18 @@ class Order{
         return companyRegistrationId;
     }
 
-   // ===============Payment Processor=================
-    // to be continued...
+   // ===============Payment Processor================
+    /*
+    5. Order Processing Classes
+    * Order class → private final orderId, orderTime (LocalDateTime)
+    * PaymentProcessor class → private final processorId, securityKey
+    * ShippingCalculator class → private final shippingRates(Map)
+    * Each class should have specific business logic with appropriate access control
+     */
+
+    class PaymentProcessor{
+        //  PaymentProcessor class → private final processorId, securityKey
+        private final String processorId;
+        private final String securityKey;
+    }
 }
