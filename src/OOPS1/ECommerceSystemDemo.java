@@ -315,5 +315,16 @@ class Order{
         //  PaymentProcessor class → private final processorId, securityKey
         private final String processorId;
         private final String securityKey;
+
+        public PaymentProcessor(String processorId, String securityKey){
+            this.processorId= Objects.requireNonNull(processorId);
+            this.securityKey= Objects.requireNonNull(securityKey);
+        }
+        public boolean authorizePayment(Order order, double amount){
+            if (order == null) return false;
+            return amount > 0 && !processorId.isEmpty();
+        }
     }
+
+
 }
