@@ -227,3 +227,78 @@ class Customer {
     //to be continued....
 
     // ====== Order with constructor chaining for types ======
+  /*
+  4. Constructor Chaining
+    * Implement constructor chaining for:
+        * Guest checkout (minimal info)
+        * Registered customer (full account access)
+        * Premium member (special pricing/features)
+        * Corporate account (bulk ordering + validation)
+   */
+
+class Order{
+    enum OrderType{
+        GUEST, REGISTERED, PREMIUM, CORPORATE
+    }
+    private final String orderId;
+    private final LocalDateTime orderTime;
+    private final OrderType orderType;
+    private final Customer customer;
+    private final ShoppingCart cart;
+    private String companyRegistrationId;
+
+    private Order(OrderType ordertype, Customer customer, ShoppingCart shoppingCart){
+        //this constructor has only three parameters as these three are always required no matter what kind of order it is.
+        //additional fields are handled by the respective constructors.
+
+        this.orderId = UUID.randomUUID().toString(); // built in java class to generate universally unique identifiers
+        // randomUUID->  A static method of UUID that generates a completely random, unique 128-bit value.
+        // .toString() → Converts that UUID object into a string representation
+        // this.orderId = ... → Stores that unique string into the orderId field of the current Order object.
+        this.orderTime = LocalDateTime.now();
+        // LocalDateTime -> A Java class from java.time package that represents a date and time (without a time zone).
+        // .now() -> A static method that gives you the current system date and time (right when this line runs).
+        this.orderType = orderType;
+        this.customer = customer;
+        this.cart = cart;
+    }
+    //GUEST CONSTRUCTOR
+    public Order(ShoppingCart cart) { this(OrderType.GUEST, null, cart); }
+    //REGISTERED CUSTOMER
+    public Order(OrderType type, Customer customer, ShoppingCart cart) { this(type, customer, cart, null); }
+    //PREMIUM CUSTOMER
+    public Order(Customer customer, ShoppingCart cart, boolean isPremium) {
+        this(isPremium ? OrderType.PREMIUM : OrderType.REGISTERED, customer, cart, null);
+    }
+    public Order(Customer customer, ShoppingCart cart, String companyRegistrationId) {
+        this(OrderType.CORPORATE, customer, cart, companyRegistrationId);
+    }
+
+    private Order(OrderType type, Customer customer, ShoppingCart cart, String companyRegistrationId ){
+        this.orderId = UUID.randomUUID().toString();
+        this.orderTime=LocalDateTime.now();
+        this.orderType=type;
+        this.customer=customer;
+        this.cart=cart;
+        this.companyRegistrationId=companyRegistrationId;
+    }
+
+    public String getOrderId{
+        return orderId;
+    }
+    public LocalDateTime getOrderTime() {
+        return orderTime;
+    }
+    public OrderType getOrderType() {
+        return orderType;
+    }
+    public Customer getCustomer() {
+        return customer;
+    }
+    public ShoppingCart getCart() {
+        return cart;
+    }
+    public String getCompanyRegistrationId() {
+        return companyRegistrationId;
+    }
+}
