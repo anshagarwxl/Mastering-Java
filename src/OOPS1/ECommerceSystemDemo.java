@@ -4,8 +4,20 @@ import java.time.LocalDateTime;
 
 public class ECommerceSystemDemo {
     public static void main(String[] args) {
+    // Demo usage
+    Product phone = Product.createElectronics("P1001", "SmartPhone X", "Electronics", "AcmeCorp", 499.99, 0.45,
+            new String[]{"Bluetooth", "NFC", "5G"}, Map.of("CPU", "Octa-core", "RAM", "8GB"));
 
-    }
+    Customer cust = new Customer("C1001", "alice@example.com", "Alice", "+911234567890", "en-IN");
+
+    ShoppingCart cart = new ShoppingCart("Cart1001", cust.getCustomerId());
+    cart.addItem(phone, 1);
+
+    Order order = new Order(Order.OrderType.REGISTERED, cust, cart);
+
+    boolean processed = ECommerceSystem.processOrder(order, cust);
+    System.out.println("Order processed: " + processed);
+}
 }
 /*
 =======PRODUCT CLASS============
@@ -361,4 +373,50 @@ class Order {
         return totalWeight * rate;
     }
         }
+
+// ====== ECommerceSystem ======
+
+/*
+ * final class ECommerceSystem that:
+ * Cannot be extended
+ * Maintains private static final Map<String, Object> productCatalog
+ * Has public static boolean processOrder(Object order, Object customer)
+ * Includes static methods for inventory management and order fulfillment
+ */
+final class ECommerceSystem {
+    private static final Map<String, Object> productCatalog = new HashMap<>();
+
+    private ECommerceSystem() {
+    }
+
+    public static void addProductToCatalog(Product product) {
+        productCatalog.put(product.getProductId(), product);
+    }
+}
+public static Object getProduct(String productId) {
+    return productCatalog.get(productId);
+}
+public static boolean processOrder(Object orderObj, Object customerObj) {
+    if (!(orderObj instanceof Order) || !(customerObj instanceof Customer)) return false;
+    Order order = (Order) orderObj;
+    Customer customer = (Customer) customerObj;
+
+    if (order.getCart() == null || order.getCart().getItemCount() == 0) return false;
+
+    PaymentProcessor processor = new PaymentProcessor("PROC-1", "s3cr3t");
+    double amount = order.getCart().getTotalAmount();
+    boolean auth = processor.authorizePayment(order, amount);
+    if (!auth) return false;
+
+    ShippingCalculator shipCalc = new ShippingCalculator(Map.of("IN", 50.0, "US", 80.0));
+    double shipping = shipCalc.calculateShipping(order, "IN");
+
+    System.out.println("Authorised amount: " + amount + ", Shipping: " + shipping);
+    return true;
+}
+
+public static void updateInventory(String productId, int delta) {
+    System.out.println("Inventory update for " + productId + ": " + delta);
+}
+
 
